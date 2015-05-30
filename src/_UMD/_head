@@ -1,0 +1,15 @@
+// taken from commonjsStrict.js in https://github.com/umdjs/umd
+
+(function (root, factory) {
+    if (typeof define === 'function' && define.amd) {
+        // AMD.
+        define(['underscore', 'Backbone'], factory);
+    } else if (typeof exports === 'object') {
+        // CommonJS
+        factory(require('underscore'), require('Backbone'));
+    } else {
+        // Browser globals
+        factory(root._, root.Backbone);
+    }
+
+})(this, (function(_, Backbone) {

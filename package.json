@@ -1,0 +1,12 @@
+{
+  "name": "Backbone.Cool",
+  "version": "0.1.0",
+  "author": "Vitali Perchonok [vitali.pe@gmail.com]",
+  "license": "MIT",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-browserify": "^3.8.0",
+    "grunt-contrib-concat": "^0.5.1",
+    "grunt-contrib-qunit": "^0.7.0"
+  }
+}
