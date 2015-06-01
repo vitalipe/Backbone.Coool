@@ -1,3 +1,4 @@
+var deps = require("./_deps");
 
 module.exports = function(spec, staticSpec) {
     var self = this;
@@ -21,5 +22,5 @@ module.exports = function(spec, staticSpec) {
     spec.__extendMixins = _.union(parentExtendTraits, extendTraits);
 
 
-    return  Backbone.Model.extend.call(this, spec, staticSpec);
+    return  deps.extend.call(this, spec, staticSpec);
 };

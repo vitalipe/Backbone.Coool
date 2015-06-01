@@ -1,15 +1,16 @@
 var Class = Cool.Class;
+var deps = Cool._deps;
 
 
 QUnit.module("Class extend", {
 
     setup : function() {
-        sinon.spy(Backbone.Model, "extend");
+        sinon.spy(deps, "extend");
 
         this.Child = Class.extend({ attr : 42, method : sinon.stub().returns("result") });
     },
     teardown : function() {
-        Backbone.Model.extend.restore();
+        deps.extend.restore();
     }
 });
 
@@ -42,7 +43,7 @@ test("should be possible to extend() extended Class", function() {
 
 test("should delegate extend() to Backbone", function() {
     Class.extend({});
-    assert.called(Backbone.Model.extend);
+    assert.called(deps.extend);
 });
 
 
