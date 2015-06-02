@@ -14,7 +14,7 @@ QUnit.module("extend", {
         sinon.spy(deps, "extend");
 
         var BaseClass = createFakeClass();
-        var Child = BaseClass.extend({ attr : 42, method : sinon.stub().returns("result") });
+        var Child = BaseClass.extend({ attr : 42, otherAttr : "other", method : sinon.stub().returns("result") });
 
         this.BaseClass = BaseClass;
         this.Child = Child;
@@ -130,6 +130,18 @@ test("should call extend() for all trait's in inheritance hierarchy", function()
             GrandchildTraitOne.extend,
             GrandchildTraitTwo.extend)
     )
+});
+
+
+test("should be possible to completely override an existing method or prop", function() {
+    var Trait = {override : { method : sinon.stub().returns("different result"), attr : 0 } };
+    var Demo = this.Child.extend({ traits : [Trait]});
+
+    var object = new Demo();
+
+    assert.equal(0, 0);
+    assert.equal(object.method(), "different result");
+
 });
 
 
