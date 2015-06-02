@@ -11,16 +11,18 @@ var createFakeClass = function() {
 QUnit.module("extend", {
 
     setup : function() {
-        sinon.spy(deps, "extend");
-
         var BaseClass = createFakeClass();
         var Child = BaseClass.extend({ attr : 42, otherAttr : "other", method : sinon.stub().returns("result") });
 
         this.BaseClass = BaseClass;
         this.Child = Child;
+
+        sinon.spy(deps, "extend");
+        sinon.spy(deps, "mixin");
     },
     teardown : function() {
         deps.extend.restore();
+        deps.mixin.restore();
     }
 });
 
@@ -139,10 +141,23 @@ test("should be possible to completely override an existing method or prop", fun
 
     var object = new Demo();
 
-    assert.equal(0, 0);
+    assert.equal(object.attr, 0);
     assert.equal(object.method(), "different result");
 
 });
+
+test("should delegate the mixin section to Cocktail.mixin()", function() {
+    var Trait = { method : sinon.stub().returns("mixed result"), attr : 0 };
+    var Demo = this.BaseClass.extend({ traits : [{mixin : Trait}]});
+    var args = deps.mixin.firstCall.args;
+
+    assert.calledOnce(deps.mixin);
+
+    assert.equal(args[0], Demo);
+    assert.include(args[1], Trait);
+});
+
+
 
 
 

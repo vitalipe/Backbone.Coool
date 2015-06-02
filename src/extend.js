@@ -28,6 +28,8 @@ module.exports = function(spec, staticSpec) {
     var traits = (spec.traits || []).map(_.clone);
     var staticTraits = pluck(traits, "static");
     var overrideTraits = pluck(traits, "override");
+    var mixinTraits =  pluck(traits, "mixin");
+    var Child;
 
     staticSpec = (staticSpec || {});
 
@@ -40,5 +42,8 @@ module.exports = function(spec, staticSpec) {
     // override
     spec = extend(spec, overrideTraits);
 
-    return  deps.extend.call(this, spec, staticSpec);
+    Child = deps.extend.call(this, spec, staticSpec);
+    deps.mixin(Child, mixinTraits);
+
+    return Child;
 };
