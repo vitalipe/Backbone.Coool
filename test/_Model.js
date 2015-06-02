@@ -1,4 +1,4 @@
-var Model = Cool.Model;
+var Model = Coool.Model;
 
 
 QUnit.module("Model");

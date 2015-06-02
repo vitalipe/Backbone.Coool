@@ -10,11 +10,11 @@ module.exports = function(grunt) {
 
         browserify: {
             build: {
-                src: ["src/Cool.js"],
-                dest: "dist/Cool.js",
+                src: ["src/Coool.js"],
+                dest: "dist/Coool.js",
                 options: {
                     browserifyOptions: {
-                        standalone: "Cool"
+                        standalone: "Coool"
                     }
                 }
             },
@@ -32,10 +32,10 @@ module.exports = function(grunt) {
             umd: {
                 src: [
                     'src/_UMD/_head',
-                    'dist/Cool.js',
+                    'dist/Coool.js',
                     'src/_UMD/_tail'
                 ],
-                dest: 'dist/Cool.js'
+                dest: 'dist/Coool.js'
             }
         }
     });

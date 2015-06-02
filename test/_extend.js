@@ -1,5 +1,5 @@
-var extend = Cool.extend;
-var deps = Cool._deps;
+var extend = Coool.extend;
+var deps = Coool._deps;
 
 var createFakeClass = function() {
     var Class = function() {};

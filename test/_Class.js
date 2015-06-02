@@ -1,4 +1,4 @@
-var Class = Cool.Class;
+var Class = Coool.Class;
 
 
 QUnit.module("Class");
