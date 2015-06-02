@@ -1,14 +1,23 @@
-var Class = Cool.Class;
+var extend = Cool.extend;
 var deps = Cool._deps;
 
+var createFakeClass = function() {
+    var Class = function() {};
+    Class.extend = extend;
 
+    return Class;
+};
 
 QUnit.module("extend", {
 
     setup : function() {
         sinon.spy(deps, "extend");
 
-        this.Child = Class.extend({ attr : 42, method : sinon.stub().returns("result") });
+        var BaseClass = createFakeClass();
+        var Child = BaseClass.extend({ attr : 42, method : sinon.stub().returns("result") });
+
+        this.BaseClass = BaseClass;
+        this.Child = Child;
     },
     teardown : function() {
         deps.extend.restore();
@@ -38,13 +47,13 @@ test("should be possible to extend() extended Class", function() {
 });
 
 test("should delegate extend() to Backbone", function() {
-    Class.extend({});
+    this.BaseClass.extend({});
     assert.called(deps.extend);
 });
 
 test("should extend with static traits", function() {
     var Trait = {static : { Value : 42, staticMethod : sinon.stub().returns("value") } };
-    var TraitClass = Class.extend({ traits : [Trait]});
+    var TraitClass = this.BaseClass.extend({ traits : [Trait]});
 
     assert.strictEqual(TraitClass.Value, 42);
     assert.strictEqual(TraitClass.staticMethod(), "value");
@@ -53,7 +62,7 @@ test("should extend with static traits", function() {
 test("should invoke trait's extend() method if it has one", function() {
     var Trait = {static : { extend : sinon.spy() } };
 
-    Class.extend({ traits : [Trait]});
+    this.BaseClass.extend({ traits : [Trait]});
 
     assert.calledOnce(Trait.static.extend);
 });
@@ -61,9 +70,9 @@ test("should invoke trait's extend() method if it has one", function() {
 test("should call trait's extend() with parent Class as context", function() {
     var Trait = {static : { extend : sinon.spy() } };
 
-    Class.extend({ traits : [Trait]});
+    this.BaseClass.extend({ traits : [Trait]});
 
-    assert.calledOn(Trait.static.extend, Class);
+    assert.calledOn(Trait.static.extend, this.BaseClass);
 });
 
 test("should call trait's extend() with the same args as Backbone.Model.extend()", function() {
@@ -71,7 +80,7 @@ test("should call trait's extend() with the same args as Backbone.Model.extend()
     var spec = { blah : true, traits : [Trait]};
     var staticSpec = { x: 42, y : false};
 
-    Class.extend(spec, staticSpec);
+    this.BaseClass.extend(spec, staticSpec);
     var args = Trait.static.extend.firstCall.args;
 
     assert.equal(args[0], spec);
@@ -82,7 +91,7 @@ test("should invoke trait's extend() methods in order", function() {
     var TraitOne = {static : { extend : sinon.spy() } };
     var TraitTwo = {static : { extend : sinon.spy() } };
 
-    Class.extend({ traits : [TraitOne, TraitTwo]});
+    this.BaseClass.extend({ traits : [TraitOne, TraitTwo]});
 
     assert.calledOnce(TraitOne.static.extend);
     assert.calledOnce(TraitTwo.static.extend);
@@ -98,7 +107,7 @@ test("should call extend() for all trait's in inheritance hierarchy", function()
     var GrandchildTraitOne = {static : { extend : sinon.spy() } };
     var GrandchildTraitTwo = {static : { extend : sinon.spy() } };
 
-    var Parent = Class.extend({ traits : [TraitOne, TraitTwo]});
+    var Parent = this.BaseClass.extend({ traits : [TraitOne, TraitTwo]});
     var Child = Parent.extend({ traits : [ChildTraitOne, ChildTraitTwo]});
     Child.extend({ traits : [GrandchildTraitOne, GrandchildTraitTwo]});
 
