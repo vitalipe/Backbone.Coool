@@ -8,5 +8,8 @@
     "grunt-browserify": "^3.8.0",
     "grunt-contrib-concat": "^0.5.1",
     "grunt-contrib-qunit": "^0.7.0"
+  },
+  "dependencies": {
+    "backbone.cocktail": "^0.5.10"
   }
 }
