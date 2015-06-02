@@ -88,47 +88,47 @@ test("should call trait's extend() with the same args as Backbone.Model.extend()
 });
 
 test("should invoke trait's extend() methods in order", function() {
-    var TraitOne = {static : { extend : sinon.spy() } };
-    var TraitTwo = {static : { extend : sinon.spy() } };
+    var TraitOne = { extend : sinon.spy() };
+    var TraitTwo = { extend : sinon.spy() };
 
-    this.BaseClass.extend({ traits : [TraitOne, TraitTwo]});
+    this.BaseClass.extend({ traits : [{ static : TraitOne}, { static : TraitTwo}]});
 
-    assert.calledOnce(TraitOne.static.extend);
-    assert.calledOnce(TraitTwo.static.extend);
-    assert.ok(TraitOne.static.extend.calledBefore(TraitTwo.static.extend));
+    assert.calledOnce(TraitOne.extend);
+    assert.calledOnce(TraitTwo.extend);
+    assert.ok(TraitOne.extend.calledBefore(TraitTwo.extend));
 });
 
 
 test("should call extend() for all trait's in inheritance hierarchy", function() {
-    var TraitOne = {static : { extend : sinon.spy() } };
-    var TraitTwo = {static : { extend : sinon.spy() } };
-    var ChildTraitOne = {static : { extend : sinon.spy() } };
-    var ChildTraitTwo = {static : { extend : sinon.spy() } };
-    var GrandchildTraitOne = {static : { extend : sinon.spy() } };
-    var GrandchildTraitTwo = {static : { extend : sinon.spy() } };
+    var TraitOne = { extend : sinon.spy() };
+    var TraitTwo = { extend : sinon.spy() };
+    var ChildTraitOne = { extend : sinon.spy() };
+    var ChildTraitTwo = { extend : sinon.spy() };
+    var GrandchildTraitOne = { extend : sinon.spy() };
+    var GrandchildTraitTwo = { extend : sinon.spy() };
 
-    var Parent = this.BaseClass.extend({ traits : [TraitOne, TraitTwo]});
-    var Child = Parent.extend({ traits : [ChildTraitOne, ChildTraitTwo]});
-    Child.extend({ traits : [GrandchildTraitOne, GrandchildTraitTwo]});
+    var Parent = this.BaseClass.extend({ traits : [{ static : TraitOne}, { static : TraitTwo}]});
+    var Child = Parent.extend({ traits : [{ static : ChildTraitOne}, { static : ChildTraitTwo}]});
+    Child.extend({ traits : [{ static : GrandchildTraitOne}, { static : GrandchildTraitTwo}]});
 
 
-    assert.calledThrice(TraitOne.static.extend);
-    assert.calledThrice(TraitTwo.static.extend);
+    assert.calledThrice(TraitOne.extend);
+    assert.calledThrice(TraitTwo.extend);
 
-    assert.calledTwice(ChildTraitOne.static.extend);
-    assert.calledTwice(ChildTraitTwo.static.extend);
+    assert.calledTwice(ChildTraitOne.extend);
+    assert.calledTwice(ChildTraitTwo.extend);
 
-    assert.calledOnce(GrandchildTraitOne.static.extend);
-    assert.calledOnce(GrandchildTraitTwo.static.extend);
+    assert.calledOnce(GrandchildTraitOne.extend);
+    assert.calledOnce(GrandchildTraitTwo.extend);
 
 
     assert.ok(sinon.calledInOrder(
-            TraitOne.static.extend,
-            TraitTwo.static.extend,
-            ChildTraitOne.static.extend,
-            ChildTraitTwo.static.extend,
-            GrandchildTraitOne.static.extend,
-            GrandchildTraitTwo.static.extend)
+            TraitOne.extend,
+            TraitTwo.extend,
+            ChildTraitOne.extend,
+            ChildTraitTwo.extend,
+            GrandchildTraitOne.extend,
+            GrandchildTraitTwo.extend)
     )
 });
 
