@@ -1,5 +1,5 @@
 
-var _extend = require("./_extend");
+var _extend = require("./extend");
 
 var Model = Backbone.Model.extend({});
 Model.extend = _extend;

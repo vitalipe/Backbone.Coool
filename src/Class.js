@@ -1,4 +1,4 @@
-var _extend = require("./_extend");
+var _extend = require("./extend");
 
 var Class = function() {
     if (this.initialize)
