@@ -157,6 +157,26 @@ test("should delegate the mixin section to Cocktail.mixin()", function() {
     assert.include(args[1], Trait);
 });
 
+test("should wrap mixed in methods", function() {
+    var mixinSpy = sinon.stub().returns("mixed result");
+    var extendSpy = sinon.spy();
+    var Demo = this.BaseClass.extend({ method : extendSpy, traits : [{ mixin : { method : mixinSpy}}]});
+    var object = new Demo();
+
+    object.method();
+
+    assert.called(mixinSpy);
+    assert.called(extendSpy);
+
+    assert.ok(mixinSpy.calledAfter(extendSpy));
+});
+
+
+
+
+
+
+
 
 
 
