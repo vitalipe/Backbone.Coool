@@ -49,6 +49,26 @@ test("should delegate extend() to Backbone", function() {
     assert.called(deps.extend);
 });
 
+test("should be possible to invoke parent method with _super()", 1, function() {
+    var verifySuper = function() {assert.equal(this._super(), "parent")};
+    var Parent = Class.extend({ whoAmI  : sinon.stub().returns("parent")});
+    var Child = Parent.extend({ whoAmI : verifySuper});
+    var obj = new Child();
+
+    obj.whoAmI();
+});
+
+test("_super() should be relative to inheritance hierarchy, not context", function() {
+    var action = sinon.spy(function() { this._super();});
+    var Parent = Class.extend({ action  : action});
+    var Child = Parent.extend({});
+    var obj = new Child();
+
+    obj.action();
+
+    assert.calledOnce(action);
+});
+
 
 QUnit.module("Trait.static");
 
@@ -146,6 +166,10 @@ test("should be possible to completely override an existing method or prop", fun
     assert.equal(object.method(), "different result");
 
 });
+
+
+
+
 
 
 QUnit.module("Trait.mixin", {

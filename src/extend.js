@@ -9,6 +9,26 @@ var pluck = function(obj, propName) {
     return _.chain(obj).pluck(propName).compact().value();
 };
 
+var _wrapMethods = function(spec, __super) {
+    var methods = _.methods(spec);
+
+    _.each(methods, function(name) {
+        var method = spec[name];
+        var _super = __super[name] || function() {};
+
+        spec[name] = function proxy() {
+            var tmp = this._super;
+            var result;
+
+            this._super = _super;
+            result  = method.apply(this, arguments);
+            this._super = tmp;
+
+            return result;
+        }
+    });
+};
+
 
 var _invokeExtend = function(Class, spec, staticSpec, staticTraits) {
     var invokeExtend = function(extend){extend.call(Class, spec, staticSpec);};
@@ -41,6 +61,10 @@ module.exports = function(spec, staticSpec) {
 
     // override
     spec = extend(spec, overrideTraits);
+
+    // _super()
+    _wrapMethods(spec, this.prototype);
+
 
     Child = deps.extend.call(this, spec, staticSpec);
     deps.mixin(Child, mixinTraits);
