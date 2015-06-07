@@ -165,7 +165,7 @@ QUnit.module("Trait.mixin", {
 
 test("should delegate the mixin section to Cocktail.mixin()", function() {
     var Trait = { method : sinon.stub().returns("mixed result"), attr : 0 };
-    var Demo = Class.extend({ traits : [{mixin : Trait}]});
+    var Demo = Class.extend({ traits : [Trait]});
     var args = deps.mixin.firstCall.args;
 
     assert.calledOnce(deps.mixin);
@@ -174,10 +174,10 @@ test("should delegate the mixin section to Cocktail.mixin()", function() {
     assert.include(args[1], Trait);
 });
 
-test("should wrap mixed in methods", function() {
+test("should wrap mixed-in methods", function() {
     var mixinSpy = sinon.stub().returns("mixed result");
     var extendSpy = sinon.spy();
-    var Demo = Class.extend({ method : extendSpy, traits : [{ mixin : { method : mixinSpy}}]});
+    var Demo = Class.extend({ method : extendSpy, traits : [{ method : mixinSpy}]});
     var object = new Demo();
 
     object.method();

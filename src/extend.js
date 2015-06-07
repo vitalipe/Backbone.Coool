@@ -9,6 +9,15 @@ var pluck = function(obj, propName) {
     return _.chain(obj).pluck(propName).compact().value();
 };
 
+var getStaticTraits = function(obj) {
+    return _.chain(obj).pluck("static").compact().value();
+};
+
+var getMixinTraits = function(obj) {
+    return _.chain(obj).map(function(trait) { return _.omit(trait, "static");}).compact().value();
+};
+
+
 var _wrapMethods = function(spec, __super) {
     var methods = _.methods(spec);
 
@@ -46,8 +55,8 @@ var _invokeExtend = function(Class, spec, staticSpec, staticTraits) {
 
 module.exports = function(spec, staticSpec) {
     var traits = (spec.traits || []).map(_.clone);
-    var staticTraits = pluck(traits, "static");
-    var mixinTraits =  pluck(traits, "mixin");
+    var staticTraits = getStaticTraits(traits);
+    var mixinTraits =  getMixinTraits(traits);
     var Child;
 
     staticSpec = (staticSpec || {});
