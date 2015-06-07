@@ -153,25 +153,6 @@ test("should call extend() for all trait's in inheritance hierarchy", function()
     )
 });
 
-QUnit.module("Trait.override");
-
-test("should be possible to completely override an existing method or prop", function() {
-    var Trait = {override : { method : sinon.stub().returns("different result"), attr : 0 } };
-    var Child = Class.extend({ attr : 42, method : sinon.stub().returns("result") });
-    var Demo = Child.extend({ traits : [Trait]});
-
-    var object = new Demo();
-
-    assert.equal(object.attr, 0);
-    assert.equal(object.method(), "different result");
-
-});
-
-
-
-
-
-
 QUnit.module("Trait.mixin", {
 
     setup : function() {

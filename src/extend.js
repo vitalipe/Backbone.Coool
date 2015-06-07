@@ -47,7 +47,6 @@ var _invokeExtend = function(Class, spec, staticSpec, staticTraits) {
 module.exports = function(spec, staticSpec) {
     var traits = (spec.traits || []).map(_.clone);
     var staticTraits = pluck(traits, "static");
-    var overrideTraits = pluck(traits, "override");
     var mixinTraits =  pluck(traits, "mixin");
     var Child;
 
@@ -59,8 +58,6 @@ module.exports = function(spec, staticSpec) {
 
     _invokeExtend(this, spec, staticSpec, staticTraits);
 
-    // override
-    spec = extend(spec, overrideTraits);
 
     // _super()
     _wrapMethods(spec, this.prototype);
