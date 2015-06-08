@@ -1,5 +1,4 @@
 // taken from commonjsStrict.js in https://github.com/umdjs/umd
-
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD.
@@ -13,3 +12,4 @@
     }
 
 })(this, (function(_, Backbone) {
+    "use strict";
