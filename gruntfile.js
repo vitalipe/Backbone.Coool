@@ -20,7 +20,7 @@ module.exports = function(grunt) {
             },
 
             tests: {
-                src: ["test/_*.js"],
+                src: ["test/_*.js", "test/traits/_*.js"],
                 dest: "test/all.js"
             }
         },
