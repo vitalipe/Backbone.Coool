@@ -69,6 +69,86 @@ test("_super() should be relative to inheritance hierarchy, not context", functi
     assert.calledOnce(action);
 });
 
+test("should have __parent__ reference to parent Class", function() {
+    var Parent = Class.extend({});
+    var Child = Parent.extend({});
+
+    assert.equal(Parent.__parent__, Class);
+    assert.equal(Child.__parent__, Parent);
+});
+
+
+test("parent Class should be isAncestorOf() it's direct child", function() {
+    var Parent = Class.extend({});
+    var Child = Parent.extend({});
+
+    assert.isTrue(Parent.isAncestorOf(Child));
+});
+
+test("indirect parent Class should also be isAncestorOf()", function() {
+    var Parent = Class.extend({});
+    var Child = Parent.extend({});
+    var Grandchild = Child.extend({});
+
+    assert.isTrue(Parent.isAncestorOf(Grandchild));
+});
+
+test("child Class should not be isAncestorOf() it's parent", function() {
+    var Parent = Class.extend({});
+    var Child = Parent.extend({});
+
+    assert.isFalse(Child.isAncestorOf(Parent));
+});
+
+test("a Class should not be isAncestorOf() itself", function() {
+    var Demo = Class.extend({});
+
+    assert.isFalse(Demo.isAncestorOf(Demo));
+});
+
+test("unrelated Class should not be isAncestorOf() other class ", function() {
+    var One = Class.extend({});
+    var Other = Class.extend({});
+
+    assert.isFalse(One.isAncestorOf(Other));
+    assert.isFalse(Other.isAncestorOf(One));
+});
+
+
+QUnit.module("Trait", {
+
+    setup : function() {
+        sinon.spy(deps, "mixin");
+    },
+    teardown : function() {
+        deps.mixin.restore();
+    }
+});
+
+test("should delegate mixins to Cocktail.mixin()", function() {
+    var Trait = { method : sinon.stub().returns("mixed result"), attr : 0 };
+    var Demo = Class.extend({ traits : [Trait]});
+    var args = deps.mixin.firstCall.args;
+
+    assert.calledOnce(deps.mixin);
+
+    assert.equal(args[0], Demo);
+    assert.include(args[1], Trait);
+});
+
+test("should wrap mixed-in methods", function() {
+    var mixinSpy = sinon.stub().returns("mixed result");
+    var extendSpy = sinon.spy();
+    var Demo = Class.extend({ method : extendSpy, traits : [{ method : mixinSpy}]});
+    var object = new Demo();
+
+    object.method();
+
+    assert.called(mixinSpy);
+    assert.called(extendSpy);
+
+    assert.ok(mixinSpy.calledAfter(extendSpy));
+});
 
 QUnit.module("Trait.static");
 
@@ -152,42 +232,6 @@ test("should call extend() for all trait's in inheritance hierarchy", function()
             GrandchildTraitTwo.extend)
     )
 });
-
-QUnit.module("Trait.mixin", {
-
-    setup : function() {
-        sinon.spy(deps, "mixin");
-    },
-    teardown : function() {
-        deps.mixin.restore();
-    }
-});
-
-test("should delegate the mixin section to Cocktail.mixin()", function() {
-    var Trait = { method : sinon.stub().returns("mixed result"), attr : 0 };
-    var Demo = Class.extend({ traits : [Trait]});
-    var args = deps.mixin.firstCall.args;
-
-    assert.calledOnce(deps.mixin);
-
-    assert.equal(args[0], Demo);
-    assert.include(args[1], Trait);
-});
-
-test("should wrap mixed-in methods", function() {
-    var mixinSpy = sinon.stub().returns("mixed result");
-    var extendSpy = sinon.spy();
-    var Demo = Class.extend({ method : extendSpy, traits : [{ method : mixinSpy}]});
-    var object = new Demo();
-
-    object.method();
-
-    assert.called(mixinSpy);
-    assert.called(extendSpy);
-
-    assert.ok(mixinSpy.calledAfter(extendSpy));
-});
-
 
 
 
