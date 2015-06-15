@@ -115,6 +115,18 @@ test("unrelated Class should not be isAncestorOf() other class ", function() {
 });
 
 
+test("Class should not be isAncestorOf() undefined, null, or primitive", function() {
+    var Demo = Class.extend({});
+
+    assert.isFalse(Demo.isAncestorOf(undefined));
+    assert.isFalse(Demo.isAncestorOf(null));
+    assert.isFalse(Demo.isAncestorOf(true));
+    assert.isFalse(Demo.isAncestorOf(0));
+    assert.isFalse(Demo.isAncestorOf("string"));
+});
+
+
+
 QUnit.module("Trait", {
 
     setup : function() {

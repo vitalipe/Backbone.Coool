@@ -54,6 +54,8 @@ var _invokeExtend = function(Class, spec, staticSpec, staticTraits) {
 
 
 var _isAncestorOf = function(OtherClass) {
+    if(!_.isObject(OtherClass))
+        return false;
 
     if (_.isUndefined(OtherClass.__parent__))
         return false;
