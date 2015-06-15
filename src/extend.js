@@ -52,21 +52,6 @@ var _invokeExtend = function(Class, spec, staticSpec, staticTraits) {
     staticSpec.__extendMixins = _.union(parentExtendMethods, extendMethods);
 };
 
-
-var _isAncestorOf = function(OtherClass) {
-    if(!_.isObject(OtherClass))
-        return false;
-
-    if (_.isUndefined(OtherClass.__parent__))
-        return false;
-
-    if (OtherClass.__parent__ === this)
-        return true;
-
-    return _isAncestorOf.call(this, OtherClass.__parent__);
-};
-
-
 module.exports = function(spec, staticSpec) {
     var traits = (spec.traits || []).map(_.clone);
     var staticTraits = getStaticTraits(traits);
@@ -85,10 +70,7 @@ module.exports = function(spec, staticSpec) {
     // _super()
     _wrapMethods(spec, this.prototype);
 
-
     staticSpec.__parent__ = this;
-    staticSpec.isAncestorOf = _isAncestorOf;
-
 
     Child = deps.extend.call(this, spec, staticSpec);
     deps.mixin(Child, mixinTraits);
