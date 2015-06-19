@@ -13,20 +13,17 @@ var __extend = {
     static : {
         extend : function(spec) {
 
-            var defaults = _(spec).result("defaults");
-
-            // take custom attr classes from parent
+            // inherit defaults & custom attr definitions from parent
             spec.__customAttrClasses = _.extend({}, this.prototype.__customAttrClasses);
+            spec.defaults = _.extend({}, _(this.prototype).result("defaults"), _(spec).result("defaults"));
 
-            _.each(defaults, function(Attr, name) {
+            _.each(spec.defaults, function(Attr, name) {
                 if (!isAttribute(Attr))
                     return;
 
                 spec.__customAttrClasses[name] = Attr;
-                defaults[name] = Attr.defaultValue();
+                spec.defaults[name] = Attr.defaultValue();
             });
-
-            spec.defaults = defaults;
         }
     }
 };

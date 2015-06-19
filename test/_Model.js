@@ -73,6 +73,17 @@ test("should expose Coool.extend()", function() {
 });
 
 
+test("\"defaults\" are inherited", function() {
+    var Parent = Model.extend({ defaults : { notCommon : "parent", common : "still parent"} });
+    var Child = Parent.extend({ defaults : { notCommon : "child", young : true} });
+    var obj = new Child();
+
+
+    assert.equal(obj.get("notCommon"), "child");
+    assert.equal(obj.get("common"), "still parent");
+    assert.equal(obj.get("young"), true);
+});
+
 
 QUnit.module("Model->Custom Attributes");
 

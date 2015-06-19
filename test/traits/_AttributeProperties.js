@@ -29,16 +29,3 @@ test("dynamic getters & setters are generated from \"defaults\" ", function() {
     assert.calledWith(setter, "one", "one");
     assert.calledWith(setter, "two", "two");
 });
-
-
-test("\"defaults\" are inherited", function() {
-    var Parent = Model.extend({ defaults : { notCommon : "parent", common : "still parent"}, traits : [AttributeProperties] });
-    var Child = Parent.extend({ defaults : { notCommon : "child", young : true} });
-    var obj = new Child();
-
-
-
-    assert.equal(obj.notCommon, "child");
-    assert.equal(obj.common, "still parent");
-    assert.equal(obj.young, true);
-});

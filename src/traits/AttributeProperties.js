@@ -6,14 +6,6 @@
 
 module.exports = {
 
-    static : {
-        extend : function(spec, staticSpec) {
-
-            // allow inheritance of "defaults"
-            spec.defaults = _.extend({}, _(this.prototype).result("defaults"), _(spec).result("defaults"));
-        }
-    },
-
     initialize : function() {
         var props = {};
         var self = this;
