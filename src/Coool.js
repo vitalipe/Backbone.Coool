@@ -10,6 +10,7 @@ module.exports =  {
     Class : require("./Class"),
     Model : require("./Model"),
     Collection : require("./Collection"),
+    Attribute : require("./Attribute"),
 
     _deps : require("./_deps"),
     extend : require("./extend"),
