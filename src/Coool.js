@@ -2,7 +2,8 @@
 var traits = {
     Properties : require("./traits/Properties"),
     AttributeProperties : require("./traits/AttributeProperties"),
-    InheritanceHelpers : require("./traits/InheritanceHelpers")
+    InheritanceHelpers : require("./traits/InheritanceHelpers"),
+    AttributeGuard : require("./traits/AttributeGuard")
 };
 
 
