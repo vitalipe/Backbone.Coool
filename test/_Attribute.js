@@ -77,4 +77,12 @@ test("should be possible to set default value", function() {
 });
 
 
+test("toJSON() should just return the current value by default", function() {
+    var attr = new Attribute(new Model(), "attr");
+
+    attr.set("other value");
+
+    assert.equal(attr.toJSON(), "other value");
+});
+
 

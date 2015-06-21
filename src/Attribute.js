@@ -54,8 +54,8 @@ module.exports = Class.extend({
             this.triggerChangeEvent(value);
     },
 
-    parse : _.identity,
-    toJSON : _.identity
+    parse : function(rawValue) { return rawValue;},
+    toJSON : function(value) { return this.__value}
 
 }, { // static
 
