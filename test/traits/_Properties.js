@@ -5,7 +5,7 @@ var Class = BaseClass.extend({ traits : [Properties]});
 
 
 var createFakeProps = function(propSpec) {
-    properties = {};
+    var properties = {};
 
     _.each(propSpec, function(val, key) {
         properties[key] = {
