@@ -55,7 +55,7 @@ module.exports = Class.extend({
     },
 
     parse : function(rawValue) { return rawValue;},
-    toJSON : function(value) { return this.__value}
+    toJSON : function(value) { return (_.isUndefined(value) ?   this.__value : value)}
 
 }, { // static
 

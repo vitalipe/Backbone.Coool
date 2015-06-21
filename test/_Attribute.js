@@ -86,3 +86,13 @@ test("toJSON() should just return the current value by default", function() {
 });
 
 
+test("toJSON() should accept optional value", function() {
+    var attr = new Attribute(new Model(), "attr");
+
+    assert.equal(attr.toJSON(42), 42);
+    assert.equal(attr.toJSON(false), false);
+    assert.equal(attr.toJSON("blah"), "blah");
+});
+
+
+
