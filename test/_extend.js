@@ -44,10 +44,20 @@ test("should be possible to extend() extended Class", function() {
     assert.strictEqual(grandchild.method(), "other result");
 });
 
+
 test("should delegate extend() to Backbone", function() {
     Class.extend({});
+
     assert.called(deps.extend);
 });
+
+
+test("should not crash on constructor functions that are not called with new", function() {
+    var Demo = Class.extend({ constructor  : sinon.stub().returns({})});
+
+    assert.doesNotThrow(_.bind(Demo,null));
+});
+
 
 test("should be possible to invoke parent method with _super()", 1, function() {
     var verifySuper = function() {assert.equal(this._super(), "parent")};
@@ -57,6 +67,7 @@ test("should be possible to invoke parent method with _super()", 1, function() {
 
     obj.whoAmI();
 });
+
 
 test("_super() should be relative to inheritance hierarchy, not context", function() {
     var action = sinon.spy(function() { this._super();});

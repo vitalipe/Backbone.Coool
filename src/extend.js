@@ -26,6 +26,9 @@ var _wrapMethods = function(spec, __super) {
         var _super = __super[name] || function() {};
 
         spec[name] = function proxy() {
+            if (!this)
+                return method.apply(this, arguments);
+
             var tmp = this._super;
             var result;
 
