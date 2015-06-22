@@ -2,7 +2,7 @@ var Class = require("./Class");
 var Properties  = require("./traits/Properties");
 
 
-module.exports = Class.extend({
+var Attribute = Class.extend({
 
     traits : [Properties],
     default : undefined,
@@ -25,6 +25,15 @@ module.exports = Class.extend({
                 return this.__name;
             }
         }
+    },
+
+    constructor : function(data) {
+        // this make it possible to omit the .extend() call when extending.
+        // e,g Range({from : 0, to : 10} is the same as Range.extend({from : 0, to : 10}
+        if (this instanceof Attribute === false)
+            return Attribute.extend(data || {});
+
+        return this._super.apply(this, arguments);
     },
 
     initialize : function(model, name) {
@@ -67,3 +76,6 @@ module.exports = Class.extend({
         return this.extend({ default : value})
     }
 });
+
+
+module.exports = Attribute;

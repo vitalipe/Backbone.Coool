@@ -96,3 +96,16 @@ test("toJSON() should accept optional value", function() {
 
 
 
+test("when constructor is called without new, it should extend the Attribute", function() {
+    var nameSpace = { Attribute : Attribute};
+    var Attr = Attribute({});
+    var Other = nameSpace.Attribute({});
+
+    assert.equal(Attr.__super__, Attribute.prototype);
+    assert.isFalse(Attr instanceof Attribute);
+
+    assert.equal(Other.__super__, Attribute.prototype);
+    assert.isFalse(Other instanceof Attribute);
+});
+
+
