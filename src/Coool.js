@@ -6,6 +6,9 @@ var traits = {
     AttributeGuard : require("./traits/AttributeGuard")
 };
 
+var types = {
+    EnumValue : require("./types/EnumValue")
+};
 
 module.exports =  {
     Class : require("./Class"),
@@ -16,5 +19,6 @@ module.exports =  {
     _deps : require("./_deps"),
     extend : require("./extend"),
 
-    traits : traits
+    traits : traits,
+    type : types
 };
