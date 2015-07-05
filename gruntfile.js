@@ -14,7 +14,8 @@ module.exports = function(grunt) {
                 dest: "dist/Coool.js",
                 options: {
                     browserifyOptions: {
-                        standalone: "Coool"
+                        standalone: "Coool",
+                        debug : true
                     }
                 }
             },
@@ -22,6 +23,14 @@ module.exports = function(grunt) {
             tests: {
                 src: ["test/_*.js", "test/traits/_*.js", "test/types/_*.js"],
                 dest: "test/all.js"
+            }
+        },
+
+        exorcise: {
+            maps: {
+                files: {
+                    'dist/Coool.js.map': ["dist/Coool.js"]
+                }
             }
         },
 
@@ -44,8 +53,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-contrib-qunit");
     grunt.loadNpmTasks("grunt-browserify");
     grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-exorcise');
 
 
 
-    grunt.registerTask("test", ["browserify:build", "concat:umd", "browserify:tests", "qunit"]);
+    grunt.registerTask("test", ["browserify:build", "concat:umd", "exorcise:maps", "browserify:tests", "qunit"]);
 };
