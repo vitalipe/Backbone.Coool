@@ -1,5 +1,6 @@
-// taken from commonjsStrict.js in https://github.com/umdjs/umd
+
 (function (root, factory) {
+    // taken from commonjsStrict.js in https://github.com/umdjs/umd :)
     if (typeof define === 'function' && define.amd) {
         // AMD.
         define(['underscore', 'Backbone'], factory);
