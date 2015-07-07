@@ -31,7 +31,7 @@ var Attribute = Class.extend({
         // this make it possible to omit the .extend() call when extending.
         // e,g Range({from : 0, to : 10} is the same as Range.extend({from : 0, to : 10}
         if (this instanceof Attribute === false)
-            return Attribute.extend(data || {});
+            return this.extend(data || {});
 
         return this._super.apply(this, arguments);
     },
