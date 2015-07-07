@@ -1,4 +1,5 @@
 var deps = require("./_deps");
+var util = require("./_util");
 
 
 var extend = function(target, sources) {
@@ -56,10 +57,14 @@ var _invokeExtend = function(Class, spec, staticSpec, staticTraits) {
 };
 
 module.exports = function(spec, staticSpec) {
+    var Child;
+    var constructor;
+
     var traits = (spec.traits || []).map(_.clone);
     var staticTraits = getStaticTraits(traits);
     var mixinTraits =  getMixinTraits(traits);
-    var Child;
+    var Parent = this;
+
 
     staticSpec = (staticSpec || {});
 
@@ -68,12 +73,22 @@ module.exports = function(spec, staticSpec) {
     delete staticSpec.extend;
 
     _invokeExtend(this, spec, staticSpec, staticTraits);
-
-
-    // _super()
     _wrapMethods(spec, this.prototype);
 
-    staticSpec.__parent__ = this;
+    // wrap constructor, so it's always called with new object or a child Class as context
+    if (_.has(spec, "constructor")) {
+        constructor = spec.constructor; // ref here, because it should be wrapped with _super...
+        spec.constructor = function() {
+            return constructor.apply(this instanceof Child || util.isAncestor(Child, this) ? this : Child, arguments);};
+    }
+    else {
+        spec.constructor = function() {
+            return Parent.apply(this instanceof Child || util.isAncestor(Child, this) ? this : Child, arguments); };
+    }
+
+
+    staticSpec.__parent__ = Parent;
+
 
     Child = deps.extend.call(this, spec, staticSpec);
     deps.mixin(Child, mixinTraits);

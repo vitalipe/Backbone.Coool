@@ -124,6 +124,30 @@ test("should wrap mixed-in methods", function() {
     assert.ok(mixinSpy.calledAfter(extendSpy));
 });
 
+QUnit.module("extend custom constructor");
+
+test("when invoked without new, it's should have the Class as context", function() {
+    var spy = sinon.spy();
+    var Child = Class.extend({constructor : spy});
+
+    Child();
+
+    assert.calledOn(spy, Child);
+});
+
+test("when an inherited class invoked without new, it's should have itself as context", function() {
+    var spy = sinon.spy();
+    var Parent = Class.extend({constructor : spy});
+    var Child = Parent.extend({});
+
+
+    Child();
+
+    assert.calledOn(spy, Child);
+});
+
+
+
 QUnit.module("Trait.static");
 
 test("should extend with static traits", function() {
@@ -206,10 +230,6 @@ test("should call extend() for all trait's in inheritance hierarchy", function()
             GrandchildTraitTwo.extend)
     )
 });
-
-
-
-
 
 
 
