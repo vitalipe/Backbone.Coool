@@ -79,8 +79,6 @@ test("should parse() \"1\", as true ", function() {
     assert.isTrue(attr.parse("1"));
 });
 
-
-
 test("should parse() on every call to set() when alwaysParse is true", function() {
     var Attr = Coool.type.Boolean({alwaysParse : true, default : false});
     var attr = new Attr(new Model(), "crap");
@@ -88,4 +86,14 @@ test("should parse() on every call to set() when alwaysParse is true", function(
     attr.set(1);
 
     assert.isTrue(attr.get());
+});
+
+
+test("should throw error when alwaysParse is false, and calling set() with a non boolean value", function() {
+    var Attr = Coool.type.Boolean({alwaysParse : false, default : false});
+    var attr = new Attr(new Model(), "crap");
+    var throwOnInvalidCallToSet = function() { attr.set(1)};
+
+
+    assert.throws(throwOnInvalidCallToSet, Error);
 });

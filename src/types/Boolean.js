@@ -18,6 +18,9 @@ module.exports = Attribute.extend({
         if (this.alwaysParse)
             val = this.parse(val);
 
+        if (!_.isBoolean(val))
+            throw new Error("Attempting to set() an invalid value: \"" + val + "\" on: " + this.model.cid + ":" + this.name);
+
         return this._super(val, options);
     }
 });
