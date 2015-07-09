@@ -8,6 +8,16 @@ test("should be instance of Attribute", function() {
     assert.instanceOf(new Coool.type.Boolean(), Coool.Attribute);
 });
 
+test("should accept true/false", function() {
+    var attr = new Coool.type.Boolean(new Model(), "fake");
+
+    attr.set(true);
+    assert.isTrue(attr.get());
+
+    attr.set(false);
+    assert.isFalse(attr.get());
+});
+
 
 test("should correctly parse() 'true' and 'false' ", function() {
     var attr = new Coool.type.Boolean();
