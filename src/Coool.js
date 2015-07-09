@@ -8,7 +8,8 @@ var traits = {
 
 var types = {
     EnumValue : require("./types/EnumValue"),
-    Boolean : require("./types/Boolean")
+    Boolean : require("./types/Boolean"),
+    Number : require("./types/Number")
 };
 
 module.exports =  {
