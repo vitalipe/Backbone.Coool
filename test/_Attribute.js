@@ -19,7 +19,7 @@ test("should have model & name property", function() {
 });
 
 
-test("should synced with model.attributes", function() {
+test("should be synced with model.attributes", function() {
     var model = new Model;
     var attr = new Attribute(model, "myCustom");
 
