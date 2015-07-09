@@ -39,7 +39,6 @@ var Attribute = Class.extend({
     initialize : function(model, name) {
         this.__model = model;
         this.__name = name;
-        this.__value = this.default;
     },
 
     triggerChangeEvent : function(value) {
@@ -50,21 +49,21 @@ var Attribute = Class.extend({
     },
 
     get : function() {
-        return this.__value;
+        return _.has(this.model.attributes, this.name) ? this.model.attributes[this.name] : this.default;
     },
 
     set : function(value, options) {
         options = (options || {});
 
-        var trigger =  !options.silent && !_.isEqual(value, this.__value);
-        this.__value = value;
+        var trigger =  !options.silent && !_.isEqual(value, this.get());
+        this.model.attributes[this.name] = value;
 
         if (trigger)
             this.triggerChangeEvent(value);
     },
 
     parse : function(rawValue) { return rawValue;},
-    toJSON : function() { return (this.__value)}
+    toJSON : function() { return (this.get())}
 
 }, { // static
 

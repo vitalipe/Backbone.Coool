@@ -19,6 +19,18 @@ test("should have model & name property", function() {
 });
 
 
+test("should synced with model.attributes", function() {
+    var model = new Model;
+    var attr = new Attribute(model, "myCustom");
+
+    attr.set(42);
+    assert.equal(model.attributes.myCustom, 42);
+
+    model.attributes.myCustom = 0;
+    assert.equal(attr.get(), 0);
+});
+
+
 test("should store value when calling set()", function() {
     var attr = new Attribute(new Model, "attr");
 
