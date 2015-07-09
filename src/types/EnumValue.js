@@ -18,11 +18,9 @@ module.exports = Attribute.extend({
         return this._super(val, options);
     },
 
-    toJSON : function(value) {
+    toJSON : function() {
         var name = this.valueAttribute;
-
-        if (_.isUndefined(value))
-            value = this.get();
+        var value = this.get();
 
         return _.has(value, name) ? value[name] : value;
     }

@@ -64,7 +64,7 @@ var Attribute = Class.extend({
     },
 
     parse : function(rawValue) { return rawValue;},
-    toJSON : function(value) { return (_.isUndefined(value) ?   this.__value : value)}
+    toJSON : function() { return (this.__value)}
 
 }, { // static
 

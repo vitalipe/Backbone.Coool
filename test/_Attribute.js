@@ -76,7 +76,6 @@ test("should be possible to set default value", function() {
     assert.equal(attr.get(), "default value");
 });
 
-
 test("toJSON() should just return the current value by default", function() {
     var attr = new Attribute(new Model(), "attr");
 
@@ -84,17 +83,6 @@ test("toJSON() should just return the current value by default", function() {
 
     assert.equal(attr.toJSON(), "other value");
 });
-
-
-test("toJSON() should accept optional value", function() {
-    var attr = new Attribute(new Model(), "attr");
-
-    assert.equal(attr.toJSON(42), 42);
-    assert.equal(attr.toJSON(false), false);
-    assert.equal(attr.toJSON("blah"), "blah");
-});
-
-
 
 test("when constructor is called without new, it should extend the Attribute", function() {
     var nameSpace = { Attribute : Attribute};

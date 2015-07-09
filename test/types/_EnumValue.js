@@ -109,13 +109,13 @@ test("toJSON() return only the value", function() {
 
 
 test("toJSON() should work with optional value param", function() {
-    var ModeAttr = EnumValue.extend({ enum : OperationModes});
-    var attr = newAttr(ModeAttr);
+    var Attr = EnumValue.extend({enum : OperationModes});
+    var fan = newAttr(Attr.defaultsTo(OperationModes.FAN));
+    var cool = newAttr(Attr.defaultsTo(OperationModes.COOL));
 
-    attr.set(OperationModes.HEAT);
 
-    assert.equal(attr.toJSON(OperationModes.FAN), "FAN");
-    assert.equal(attr.toJSON(OperationModes.COOL), "COOL");
+    assert.equal(fan.toJSON(OperationModes.FAN), "FAN");
+    assert.equal(cool.toJSON(OperationModes.COOL), "COOL");
 });
 
 test("should allow default value", function() {
@@ -135,7 +135,6 @@ test("should work with flat data", function() {
 
     assert.equal(attr.get(), FlatModes.COOL);
     assert.equal(attr.toJSON(), FlatModes.COOL);
-    assert.equal(attr.toJSON(FlatModes.FAN), FlatModes.FAN);
     assert.equal(attr.parse(FlatModes.HEAT), FlatModes.HEAT);
 });
 
@@ -144,7 +143,6 @@ test("should be possible to set valueAttribute", function() {
     var attr = newAttr(ModeAttr);
 
     assert.equal(attr.toJSON(), "Cool");
-    assert.equal(attr.toJSON(OperationModes.FAN), "Fan");
     assert.equal(attr.parse("Cool"), OperationModes.COOL);
     assert.equal(attr.parse("Heat"), OperationModes.HEAT);
 });

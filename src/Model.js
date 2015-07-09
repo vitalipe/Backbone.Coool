@@ -86,13 +86,11 @@ module.exports = BaseModel.extend({
     },
 
 
-    toJSON : function(attrs) {
-        var json = this._super.call(this, attrs);
-
-        attrs = (attrs || {});
+    toJSON : function() {
+        var json = this._super.call(this);
 
         _.each(this.__customAttrs, function(attr, name) {
-            json[name] = attr.toJSON(attrs[name]);
+            json[name] = attr.toJSON();
         });
 
         return json;
