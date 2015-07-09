@@ -2,7 +2,7 @@ var type = Coool.type;
 var Model = Coool.Model;
 
 
-var verifySetEqual = function(attr, val, expected) {
+var setAndVerifyEqual = function(attr, val, expected) {
     if (_.isUndefined(expected))
         expected = val;
 
@@ -11,7 +11,7 @@ var verifySetEqual = function(attr, val, expected) {
 };
 
 
-var verifySetCloseTo = function(attr, val) {
+var setAndVerifyCloseTo = function(attr, val) {
     attr.set(val);
     assert.closeTo(attr.get(), val, 0.001);
 };
@@ -19,6 +19,14 @@ var verifySetCloseTo = function(attr, val) {
 var verifyNaN = function(val) {
     assert.isTrue(_.isNaN(val));
 };
+
+
+var setAndVerifyThrows = function(attr, val) {
+    var throws = function() { attr.set(val)};
+
+    assert.throws(throws, Error);
+};
+
 
 
 QUnit.module("type.Number");
@@ -31,19 +39,19 @@ test("should be  instance of Attribute", function() {
 test("should accept integers", function() {
     var attr = new type.Number(new Model, "crap");
 
-    verifySetEqual(attr, 0);
-    verifySetEqual(attr, 1);
-    verifySetEqual(attr, 42);
-    verifySetEqual(attr, -200);
+    setAndVerifyEqual(attr, 0);
+    setAndVerifyEqual(attr, 1);
+    setAndVerifyEqual(attr, 42);
+    setAndVerifyEqual(attr, -200);
 
 });
 
 test("should accept floats", function() {
     var attr = new type.Number(new Model, "crap");
 
-    verifySetCloseTo(attr, 0.1);
-    verifySetCloseTo(attr, 0.5);
-    verifySetCloseTo(attr, -0.5);
+    setAndVerifyCloseTo(attr, 0.1);
+    setAndVerifyCloseTo(attr, 0.5);
+    setAndVerifyCloseTo(attr, -0.5);
 });
 
 test("should accept NaN", function() {
@@ -56,10 +64,21 @@ test("should accept NaN", function() {
 test("should accept positive and negative infinity", function() {
     var attr = new type.Number(new Model, "crap");
 
-    verifySetEqual(attr, Number.POSITIVE_INFINITY);
-    verifySetEqual(attr, Number.NEGATIVE_INFINITY);
+    setAndVerifyEqual(attr, Number.POSITIVE_INFINITY);
+    setAndVerifyEqual(attr, Number.NEGATIVE_INFINITY);
 });
 
+
+test("should reject non-number values", function() {
+    var attr = new type.Number(new Model(), "demo");
+
+    setAndVerifyThrows(attr, "1");
+    setAndVerifyThrows(attr, false);
+    setAndVerifyThrows(attr, {});
+    setAndVerifyThrows(attr, []);
+    setAndVerifyThrows(attr, null);
+    setAndVerifyThrows(attr, undefined);
+});
 
 test("should parse() numeric strings as numbers", function() {
     var attr = new type.Number(new Model, "crap");
@@ -112,18 +131,18 @@ test("should clamp on set() when alwaysClamp is true", function() {
     var Attr = type.Number({ alwaysClamp : true, min : 0, max : 100});
     var attr = new Attr(new Model, "crap");
 
-    verifySetEqual(attr, 99999, 100);
-    verifySetEqual(attr, -99999, 0);
-    verifySetEqual(attr, 42, 42);
+    setAndVerifyEqual(attr, 99999, 100);
+    setAndVerifyEqual(attr, -99999, 0);
+    setAndVerifyEqual(attr, 42, 42);
 });
 
 test("should not clamp on set() when alwaysClamp is false", function() {
     var Attr = type.Number({ alwaysClamp : false, min : 0, max : 100});
     var attr = new Attr(new Model, "crap");
 
-    verifySetEqual(attr, 99999);
-    verifySetEqual(attr, -99999);
-    verifySetEqual(attr, 42);
+    setAndVerifyEqual(attr, 99999);
+    setAndVerifyEqual(attr, -99999);
+    setAndVerifyEqual(attr, 42);
 });
 
 test("should clamp when calling toJSON()", function() {
