@@ -10,7 +10,8 @@ var types = {
     EnumValue : require("./types/EnumValue"),
     Boolean : require("./types/Boolean"),
     Number : require("./types/Number"),
-    String : require("./types/String")
+    String : require("./types/String"),
+    Tuple : require("./types/Tuple")
 };
 
 module.exports =  {
