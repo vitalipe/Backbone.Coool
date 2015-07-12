@@ -11,7 +11,8 @@ var types = {
     Boolean : require("./types/Boolean"),
     Number : require("./types/Number"),
     String : require("./types/String"),
-    Tuple : require("./types/Tuple")
+    Tuple : require("./types/Tuple"),
+    ModelReference : require("./types/ModelReference")
 };
 
 module.exports =  {
