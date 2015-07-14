@@ -12,7 +12,8 @@ var types = {
     Number : require("./types/Number"),
     String : require("./types/String"),
     Tuple : require("./types/Tuple"),
-    ModelReference : require("./types/ModelReference")
+    ModelReference : require("./types/ModelReference"),
+    ModelArrayReference : require("./types/ModelArrayReference")
 };
 
 module.exports =  {
