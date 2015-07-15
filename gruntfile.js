@@ -1,8 +1,20 @@
+
+
+
+function fetchBuildID() {
+    var shell = require('shelljs');
+
+    var result = shell.exec('git rev-parse HEAD', {silent: true});
+    return result.code === 0 ? result.output.replace(/(\r\n|\n|\r|↵)/gm, "") : "UNKNOWN";
+}
+
+
 module.exports = function(grunt) {
 
     grunt.initConfig({
 
         pkg: grunt.file.readJSON('package.json'),
+        buildID : fetchBuildID(),
 
         qunit: {
             files: ['test/*.html']
@@ -28,7 +40,7 @@ module.exports = function(grunt) {
         concat: {
             options: {
                 separator: "\n\n",
-                banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' + '<%= grunt.template.today("yyyy-mm-dd") %> */'
+                banner: '/*! <%= pkg.name %> - v<%= pkg.version %> [<%= buildID %>] - <%= grunt.template.today("yyyy-mm-dd") %> */'
             },
 
             umd: {
@@ -43,6 +55,9 @@ module.exports = function(grunt) {
 
         uglify: {
             prod: {
+                options : {
+                    preserveComments : 'some'
+                },
                 files: {
                     'dist/Coool.min.js': ['dist/Coool.js']
                 }

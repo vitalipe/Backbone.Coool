@@ -6,7 +6,6 @@ logs/
 log/
 
 test/all.js
-dist/
 
 *.seed
 *.log

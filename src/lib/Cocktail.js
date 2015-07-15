@@ -1,6 +1,6 @@
-//     (c) 2012 Onsi Fakhouri
-//     Cocktail.js may be freely distributed under the MIT license.
-//     http://github.com/onsi/cocktail
+//!     (c) 2012 Onsi Fakhouri
+//!     Cocktail.js may be freely distributed under the MIT license.
+//!     http://github.com/onsi/cocktail
 
 var Cocktail = {};
 
