@@ -55,7 +55,7 @@ var Attribute = Class.extend({
     set : function(value, options) {
         options = (options || {});
 
-        var trigger =  !options.silent && !_.isEqual(value, this.get());
+        var trigger =  !options.silent && !this.isEqualTo(value);
         this.model.attributes[this.name] = value;
 
         if (trigger)
@@ -63,7 +63,9 @@ var Attribute = Class.extend({
     },
 
     parse : function(rawValue) { return rawValue;},
-    toJSON : function() { return (this.get())}
+    toJSON : function() { return (this.get())},
+
+    isEqualTo : function(otherValue) { return _.isEqual(this.get(), otherValue)}
 
 }, { // static
 

@@ -80,6 +80,80 @@ test("should not trigger any change events if {silent : true} is passed to set()
 });
 
 
+test("should not trigger any change events if it's the same value", function() {
+    var listener = sinon.spy();
+    var attr = new Attribute(new Model, "myCustom");
+
+    attr.set("blah");
+    attr.model.on("change change:myCustom", listener);
+
+    attr.set("blah");
+    attr.set("blah");
+
+    assert.notCalled(listener);
+});
+
+
+test("should delegate to .isEqualTo() when checking for equality during set()", function() {
+    var listener = sinon.spy();
+    var isEqualTo = sinon.stub();
+    var Attr = Attribute({ isEqualTo : isEqualTo});
+    var attr = new Attr(new Model, "myCustom");
+
+    attr.model.on("change:myCustom", listener);
+
+    isEqualTo.returns(false);
+    attr.set("blah");
+    attr.set("blah");
+    attr.set("blah");
+    attr.set("blah");
+    attr.set("blah");
+
+    isEqualTo.returns(true);
+    attr.set("mooo!");
+    attr.set("mooo!");
+    attr.set("mooo!");
+    attr.set("mooo!");
+    attr.set("mooo!");
+
+    assert.callCount(listener, 5);
+    assert.callCount(isEqualTo, 10);
+});
+
+
+test("isEqualTo() should perform simple value comparison", function() {
+    var attr = new Attribute(new Model, "myCustom");
+
+    attr.set("blah");
+    assert.isTrue(attr.isEqualTo("blah"));
+    assert.isFalse(attr.isEqualTo("other"));
+
+
+    attr.set(1);
+    assert.isTrue(attr.isEqualTo(1));
+    assert.isFalse(attr.isEqualTo(2));
+
+
+    attr.set({});
+    assert.isTrue(attr.isEqualTo({}));
+    assert.isFalse(attr.isEqualTo({ x : 4}));
+
+});
+
+
+test("isEqualTo() should perform deep value comparison", function() {
+    var attr = new Attribute(new Model, "myCustom");
+
+    attr.set([1,2,3]);
+    assert.isTrue(attr.isEqualTo([1,2,3]));
+    assert.isFalse(attr.isEqualTo([3,2,1]));
+
+
+    attr.set({ x : 4});
+    assert.isTrue(attr.isEqualTo({ x : 4}));
+    assert.isFalse(attr.isEqualTo({x : 5}));
+});
+
 
 test("should be possible to set default value", function() {
     var Fake = Attribute.extend({ default : "default value"});
