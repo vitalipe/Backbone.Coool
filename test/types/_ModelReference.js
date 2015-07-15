@@ -103,3 +103,19 @@ test("should compare by ID, not the actual refs", function() {
     assert.isFalse(ref.isEqualTo({id : 11}));
     assert.isFalse(ref.isEqualTo(11));
 });
+
+
+test("toJSON() should only return the ID ", function() {
+    var Reference = ModelReference({ default : 42, resolveRef: sinon.stub().returns(new Model({id : 42}))});
+    var ref = new Reference(new Model, "ref");
+
+    assert.equal(ref.toJSON(), 42);
+});
+
+
+test("toJSON() should return the stored ID when unresolved ", function() {
+    var Reference = ModelReference({ default : 42, resolveRef: sinon.stub().returns(null)});
+    var ref = new Reference(new Model, "ref");
+
+    assert.equal(ref.toJSON(), 42);
+});

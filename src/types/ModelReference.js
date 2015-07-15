@@ -21,5 +21,7 @@ module.exports = Attribute.extend({
             other = other.id;
 
         return _.isEqual(Attribute.prototype.get.call(this), other);
-    }
+    },
+
+    toJSON : function() {return Attribute.prototype.get.call(this)}
 });

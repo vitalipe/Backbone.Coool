@@ -1,4 +1,4 @@
-/*! Backbone.Coool - v0.1.0 [40f0005f484ed7faf5df1925bc22f33615e582d8] - 2015-07-15 */
+/*! Backbone.Coool - v0.1.0 [7471545d7f6af770c355e2f14072989b642dda11] - 2015-07-15 */
 (function (root, factory) {
     // taken from commonjsStrict.js in https://github.com/umdjs/umd :)
     if (typeof define === 'function' && define.amd) {
@@ -697,6 +697,10 @@ module.exports = Attribute.extend({
         values = values.map(function(val) { return (_.has(val, "id") ? val.id : val); });
 
         return _.isEqual(Attribute.prototype.get.call(this), values);
+    },
+
+    toJSON : function() {
+        return Attribute.prototype.get.call(this);
     }
 });
 },{"../Attribute":1}],18:[function(require,module,exports){
@@ -723,7 +727,9 @@ module.exports = Attribute.extend({
             other = other.id;
 
         return _.isEqual(Attribute.prototype.get.call(this), other);
-    }
+    },
+
+    toJSON : function() {return Attribute.prototype.get.call(this)}
 });
 },{"../Attribute":1}],19:[function(require,module,exports){
 var Attribute = require("../Attribute");
