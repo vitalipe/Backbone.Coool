@@ -1,1 +1,3 @@
-# Backbone.Cool
+# Backbone.Coool
+
+TODO: add docs
