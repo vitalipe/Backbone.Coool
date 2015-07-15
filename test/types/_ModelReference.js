@@ -91,3 +91,15 @@ test("should throw error when attempting to use objects as IDs", function() {
     assert.throws(function() { ref.set([])});
     assert.throws(function() { ref.set(function() {})});
 });
+
+
+test("should compare by ID, not the actual refs", function() {
+    var Reference = ModelReference.defaultsTo(42);
+    var ref = new Reference(new Model, "ref");
+
+    assert.isTrue(ref.isEqualTo(42));
+    assert.isTrue(ref.isEqualTo({id : 42, other : 44}));
+
+    assert.isFalse(ref.isEqualTo({id : 11}));
+    assert.isFalse(ref.isEqualTo(11));
+});

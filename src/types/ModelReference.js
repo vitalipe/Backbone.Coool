@@ -14,5 +14,12 @@ module.exports = Attribute.extend({
             throw new Error("Attempting to set() an invalid value: \"" + val + "\" on: " + this.model.cid + ":" + this.name);
 
         return this._super(val, options);
+    },
+
+    isEqualTo : function(other) {
+        if (_.has(other, "id"))
+            other = other.id;
+
+        return _.isEqual(Attribute.prototype.get.call(this), other);
     }
 });

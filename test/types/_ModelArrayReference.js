@@ -115,3 +115,15 @@ test("should be possible to mix objects with raw IDs", function() {
 
     assert.calledWith(resolve, [1,2,3,4]);
 });
+
+
+test("should compare by ID, not the actual refs", function() {
+    var Reference = ModelArrayReference.defaultsTo([1,2,3]);
+    var ref = new Reference(new Model, "ref");
+
+    assert.isTrue(ref.isEqualTo([1,2,3]));
+    assert.isTrue(ref.isEqualTo([{id : 1}, {id : 2, x : "value"}, 3]));
+
+    assert.isFalse(ref.isEqualTo([1,2,4]));
+    assert.isFalse(ref.isEqualTo([{ id : 8}, 2, 3]));
+});

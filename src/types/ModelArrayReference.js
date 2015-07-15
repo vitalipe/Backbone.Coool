@@ -19,5 +19,11 @@ module.exports = Attribute.extend({
         });
 
         return this._super(refs, options);
+    },
+
+    isEqualTo : function(values) {
+        values = values.map(function(val) { return (_.has(val, "id") ? val.id : val); });
+
+        return _.isEqual(Attribute.prototype.get.call(this), values);
     }
 });
