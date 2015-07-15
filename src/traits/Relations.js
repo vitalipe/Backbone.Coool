@@ -20,6 +20,8 @@ module.exports = {
         setStore : function(store) { _store = store},
 
         hasOneFrom : function(refName) {
+            refName = refName.toLowerCase();
+
             return ModelReference.extend({
                 resolveRef : function(ref) {
 
@@ -30,6 +32,8 @@ module.exports = {
         },
 
         hasMany : function(refName) {
+            refName = refName.toLowerCase();
+
             return ModelArrayReference.extend({
                 resolveRef : function(refs) {
                     if (_.isEmpty(refs))

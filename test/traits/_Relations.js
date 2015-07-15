@@ -7,8 +7,8 @@ QUnit.module("trait.Relations", {
     setup : function() {
 
         this.FakeStore = {
-            Stuff : new Collection([{id : 1}, {id : 2}, {id : 3}]),
-            EmptyStuff : new Collection()
+            stuff : new Collection([{id : 1}, {id : 2}, {id : 3}]),
+            empty : new Collection()
         };
 
         Model.setStore(this.FakeStore);
@@ -21,7 +21,7 @@ QUnit.module("trait.Relations", {
 
 
 test("hasMany() should return array of model instances when resolved", function() {
-    var store = this.FakeStore.Stuff;
+    var store = this.FakeStore.stuff;
     var ManyRef = Model.hasMany("Stuff");
     var many = new ManyRef(new Model(), "demo");
 
@@ -43,7 +43,7 @@ test("hasMany() should return empty array when not resolved", function() {
 
 
 test("hasOneFrom() should return a model when resolved", function() {
-    var store = this.FakeStore.Stuff;
+    var store = this.FakeStore.stuff;
     var OneRef = Model.hasOneFrom("Stuff");
     var one = new OneRef(new Model(), "demo");
 
@@ -95,4 +95,20 @@ test("should throw an Error when collection does not exists in store", function(
 
     assert.throws(function() { many.get()});
     assert.throws(function() {one.get()});
+});
+
+
+test("should convert all refs to lower case", function() {
+    var stuff = this.FakeStore.stuff;
+    var ManyRef = Model.hasMany("STUFF");
+    var OneRef = Model.hasOneFrom("STUFF");
+
+    var many = new ManyRef(new Model(), "demo");
+    var one = new OneRef(new Model(), "demo");
+
+    many.set([1,2]);
+    one.set(1);
+
+    assert.equal(one.get(), stuff.get(1));
+    assert.deepEqual(many.get(), [stuff.get(1), stuff.get(2)]);
 });

@@ -1,4 +1,4 @@
-/*! Backbone.Coool - v0.1.0 [7471545d7f6af770c355e2f14072989b642dda11] - 2015-07-15 */
+/*! Backbone.Coool - v0.1.0 [bd42709cb22811a1d0648521b9a7484d4f65c37f] - 2015-07-15 */
 (function (root, factory) {
     // taken from commonjsStrict.js in https://github.com/umdjs/umd :)
     if (typeof define === 'function' && define.amd) {
@@ -596,6 +596,8 @@ module.exports = {
         setStore : function(store) { _store = store},
 
         hasOneFrom : function(refName) {
+            refName = refName.toLowerCase();
+
             return ModelReference.extend({
                 resolveRef : function(ref) {
 
@@ -606,6 +608,8 @@ module.exports = {
         },
 
         hasMany : function(refName) {
+            refName = refName.toLowerCase();
+
             return ModelArrayReference.extend({
                 resolveRef : function(refs) {
                     if (_.isEmpty(refs))
