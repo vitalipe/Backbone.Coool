@@ -1,9 +1,21 @@
 
 (function (root, factory) {
+    var syncAMD = function(factory, deps) {
+            var _define = define;
+            var data = null;
+
+            define = function (crap, f) {data = f(); define = _define;};
+            define.amd = true;
+
+            factory.apply(this, deps);
+
+            return data;
+    };
+
     // taken from commonjsStrict.js in https://github.com/umdjs/umd :)
     if (typeof define === 'function' && define.amd) {
         // AMD.
-        define(['underscore', 'Backbone'], factory);
+        define(['underscore', 'backbone'], function(_, Backbone) {return syncAMD(factory, [ _, Backbone]);});
     } else if (typeof exports === 'object') {
         // CommonJS
         factory(require('underscore'), require('Backbone'));

@@ -1,9 +1,21 @@
-/*! Backbone.Coool - v0.1.0 [40f0005f484ed7faf5df1925bc22f33615e582d8] - 2015-07-15 */
+/*! Backbone.Coool - v0.1.0 [7471545d7f6af770c355e2f14072989b642dda11] - 2015-07-18 */
 (function (root, factory) {
+    var syncAMD = function(factory, deps) {
+            var _define = define;
+            var data = null;
+
+            define = function (crap, f) {data = f(); define = _define;};
+            define.amd = true;
+
+            factory.apply(this, deps);
+
+            return data;
+    };
+
     // taken from commonjsStrict.js in https://github.com/umdjs/umd :)
     if (typeof define === 'function' && define.amd) {
         // AMD.
-        define(['underscore', 'Backbone'], factory);
+        define(['underscore', 'backbone'], function(_, Backbone) {return syncAMD(factory, [ _, Backbone]);});
     } else if (typeof exports === 'object') {
         // CommonJS
         factory(require('underscore'), require('Backbone'));
