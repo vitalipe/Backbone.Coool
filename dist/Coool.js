@@ -1,9 +1,21 @@
-/*! Backbone.Coool - v0.1.0 [bd42709cb22811a1d0648521b9a7484d4f65c37f] - 2015-07-15 */
+/*! Backbone.Coool - v0.1.0 [7471545d7f6af770c355e2f14072989b642dda11] - 2015-07-18 */
 (function (root, factory) {
+    var syncAMD = function(factory, deps) {
+            var _define = define;
+            var data = null;
+
+            define = function (crap, f) {data = f(); define = _define;};
+            define.amd = true;
+
+            factory.apply(this, deps);
+
+            return data;
+    };
+
     // taken from commonjsStrict.js in https://github.com/umdjs/umd :)
     if (typeof define === 'function' && define.amd) {
         // AMD.
-        define(['underscore', 'Backbone'], factory);
+        define(['underscore', 'backbone'], function(_, Backbone) {return syncAMD(factory, [ _, Backbone]);});
     } else if (typeof exports === 'object') {
         // CommonJS
         factory(require('underscore'), require('Backbone'));
@@ -596,8 +608,6 @@ module.exports = {
         setStore : function(store) { _store = store},
 
         hasOneFrom : function(refName) {
-            refName = refName.toLowerCase();
-
             return ModelReference.extend({
                 resolveRef : function(ref) {
 
@@ -608,8 +618,6 @@ module.exports = {
         },
 
         hasMany : function(refName) {
-            refName = refName.toLowerCase();
-
             return ModelArrayReference.extend({
                 resolveRef : function(refs) {
                     if (_.isEmpty(refs))
@@ -701,10 +709,6 @@ module.exports = Attribute.extend({
         values = values.map(function(val) { return (_.has(val, "id") ? val.id : val); });
 
         return _.isEqual(Attribute.prototype.get.call(this), values);
-    },
-
-    toJSON : function() {
-        return Attribute.prototype.get.call(this);
     }
 });
 },{"../Attribute":1}],18:[function(require,module,exports){
@@ -731,9 +735,7 @@ module.exports = Attribute.extend({
             other = other.id;
 
         return _.isEqual(Attribute.prototype.get.call(this), other);
-    },
-
-    toJSON : function() {return Attribute.prototype.get.call(this)}
+    }
 });
 },{"../Attribute":1}],19:[function(require,module,exports){
 var Attribute = require("../Attribute");
