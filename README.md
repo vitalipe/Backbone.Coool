@@ -79,11 +79,11 @@ So we made attribute into an object! check this example:
    no more this.constructor.prototype.methodName.call... ugly hacks!
 
 
-    var My = Coool.Attribute.extend({
-        get : function() {
-            return this._super(); // will call Attribute.prototype.get...
-        }
-    })
+        var My = Coool.Attribute.extend({
+            get : function() {
+                return this._super(); // will call Attribute.prototype.get...
+            }
+        });
 
 
 2. Model "defaults" inheritance, e,g:
@@ -93,6 +93,7 @@ So we made attribute into an object! check this example:
         ....
         var model = new Child();
         model.get("fromParent"); // 42
+        model.get("fromChild"); // 123
 
 3. Class is a thing (and can also be extended with traits):
 
@@ -111,7 +112,7 @@ TODO
 
 ## Custom builds
 
-At this time there is no auto build script to build minimal version, mainly because I'm too lazy :P
+At this time there is no auto build script, mainly because I'm too lazy :P
 
 But it's fairly easy to customize the build, by simply editing "src/Coool.js"... just remove all the
 stuff you don't want and run "grunt build", then check the dist directory :)
